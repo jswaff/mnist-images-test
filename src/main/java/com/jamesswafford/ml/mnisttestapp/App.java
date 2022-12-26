@@ -14,7 +14,7 @@ import java.util.List;
 public class App {
 
     public static void main(String[] args) {
-        System.out.println("executing mnist testapp");
+        System.out.println("executing mnist testapp\n");
 
         List<Image> trainingImages = ImageImporter.importImages(true);
         System.out.println("loaded " + trainingImages.size() + " training images");
@@ -27,7 +27,7 @@ public class App {
                 .numInputUnits(28 * 28)
                 .layers(List.of(
                         new Layer(50, new Sigmoid()),
-                        //new Layer(25, new Sigmoid()),
+                        new Layer(15, new Sigmoid()),
                         new Layer(10, new Identity()) // TODO: need a softmax layer
                 ))
                 .costFunction(new MSE())
@@ -38,8 +38,6 @@ public class App {
         Pair<SimpleMatrix, SimpleMatrix> X_Y_test = loadXY(testImages);
         SimpleMatrix X_test = X_Y_test.getValue0();
         SimpleMatrix Y_test = X_Y_test.getValue1();
-        System.out.println("Y_test rows: " + Y_test.numRows());
-        System.out.println("Y_test cols: " + Y_test.numCols());
 
         // get the initial cost
         SimpleMatrix P_init = network.predict(X_test);
@@ -49,15 +47,12 @@ public class App {
         SimpleMatrix X_train = X_Y_train.getValue0();
         SimpleMatrix Y_train = X_Y_train.getValue1();
 
-        network.train(X_train, Y_train, 100);
-
+        network.train(X_train, Y_train, 30, 10, 3.0, X_test, Y_test);
         SimpleMatrix P_final = network.predict(X_test);
-        System.out.println("\tfinal cost: " + network.cost(P_final, Y_test));
+        System.out.println("final cost: " + network.cost(P_final, Y_test));
 
         // measure accuracy
         int totalCorrect= 0;
-        System.out.println("P_final rows: " + P_final.numRows());
-        System.out.println("P_final cols: " + P_final.numCols());
         for (int c=0;c<P_final.numCols();c++) {
             double label = getLabel(Y_test, c);
             double predictedLabel = getLabel(P_final, c);
@@ -66,10 +61,11 @@ public class App {
                 totalCorrect++;
             }
         }
+
         System.out.println("accuracy: " + totalCorrect + " / " + testImages.size() + " (" +
                 totalCorrect *100.0/testImages.size() + "%)");
 
-        System.out.println("execution complete.  bye.");
+        System.out.println("\nexecution complete.  bye.");
     }
 
     private static Pair<SimpleMatrix, SimpleMatrix> loadXY(List<Image> images) {
@@ -95,11 +91,6 @@ public class App {
             }
             for (int r=0;r<10;r++) {
                 Y.set(r, c, r==label ? 1.0 : 0.0);
-            }
-
-            // sanity check
-            if (getLabel(Y, c) != label) {
-                throw new RuntimeException("Something is jacked up.");
             }
         }
 

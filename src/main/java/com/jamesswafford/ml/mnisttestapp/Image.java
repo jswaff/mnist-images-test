@@ -15,6 +15,8 @@ public class Image {
         this.label = label;
     }
 
+    // credit to Tobias Hill for this nice ASCII representation of a digit
+    // https://bitbucket.org/tobias_hill/mnist-example/src/master/src/main/java/com/tailworks/ml/mnistexample/DigitData.java
     private char toChar(double val) {
         return " .:-=+*#%@".charAt(Math.min((int) (val * 10), 9));
     }
