@@ -3,6 +3,7 @@ package com.jamesswafford.ml.mnisttestapp;
 import com.jamesswafford.ml.nn.Layer;
 import com.jamesswafford.ml.nn.Network;
 import com.jamesswafford.ml.nn.activation.Identity;
+import com.jamesswafford.ml.nn.activation.Relu;
 import com.jamesswafford.ml.nn.activation.Sigmoid;
 import com.jamesswafford.ml.nn.cost.MSE;
 import org.ejml.simple.SimpleMatrix;
