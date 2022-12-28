@@ -48,7 +48,7 @@ public class App {
         SimpleMatrix X_train = X_Y_train.getValue0();
         SimpleMatrix Y_train = X_Y_train.getValue1();
 
-        network.train(X_train, Y_train, 30, 10, 3.0, X_test, Y_test);
+        network.train(X_train, Y_train, 50, 10, 3.0, X_test, Y_test);
         SimpleMatrix P_final = network.predict(X_test);
         System.out.println("final cost: " + network.cost(P_final, Y_test));
 
