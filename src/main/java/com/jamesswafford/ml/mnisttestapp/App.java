@@ -27,8 +27,8 @@ public class App {
         Network network = Network.builder()
                 .numInputUnits(28 * 28)
                 .layers(List.of(
-                        new Layer(50, new Sigmoid()),
-                        new Layer(15, new Sigmoid()),
+                        new Layer(38, new Sigmoid()),
+                        new Layer(14, new Sigmoid()),
                         new Layer(10, new Identity()) // TODO: need a softmax layer
                 ))
                 .costFunction(new MSE())

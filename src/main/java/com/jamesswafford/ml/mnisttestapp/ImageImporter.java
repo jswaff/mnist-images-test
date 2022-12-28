@@ -16,12 +16,11 @@ public class ImageImporter {
         String labelsFileName = train ? "train-labels-idx1-ubyte" : "t10k-labels-idx1-ubyte";
         String imagesFileName = train ? "train-images-idx3-ubyte" : "t10k-images-idx3-ubyte";
 
-
         try (
             DataInputStream labelsIS = new DataInputStream(
                     Objects.requireNonNull(classLoader.getResourceAsStream(labelsFileName)));
             DataInputStream imagesIS = new DataInputStream(
-                    Objects.requireNonNull(classLoader.getResourceAsStream(imagesFileName)));
+                    Objects.requireNonNull(classLoader.getResourceAsStream(imagesFileName)))
         )
         {
             if (imagesIS.readInt() != 2051) {
@@ -44,10 +43,7 @@ public class ImageImporter {
             byte[] data = new byte[numRows * numCols];
 
             for (int i=0;i<numImages;i++) {
-                int numRead = imagesIS.read(data, 0, data.length);
-                if (numRead != data.length) {
-                    throw new IOException("Expected to read " + data.length + " bytes. actually read " + numRead);
-                }
+                imagesIS.readFully(data, 0, data.length);
                 double[] img = new double[data.length];
                 for (int j=0;j<data.length;j++) {
                     img[j] = (data[j] & 255) / 255.0;
