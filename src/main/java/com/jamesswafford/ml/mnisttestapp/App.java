@@ -3,7 +3,6 @@ package com.jamesswafford.ml.mnisttestapp;
 import com.jamesswafford.ml.nn.Layer;
 import com.jamesswafford.ml.nn.Network;
 import com.jamesswafford.ml.nn.activation.Identity;
-import com.jamesswafford.ml.nn.activation.Relu;
 import com.jamesswafford.ml.nn.activation.Sigmoid;
 import com.jamesswafford.ml.nn.cost.MSE;
 import org.ejml.simple.SimpleMatrix;
@@ -29,7 +28,7 @@ public class App {
                 .layers(List.of(
                         new Layer(38, new Sigmoid()),
                         new Layer(14, new Sigmoid()),
-                        new Layer(10, new Identity()) // TODO: need a softmax layer
+                        new Layer(10, new Identity()) // TODO: softmax
                 ))
                 .costFunction(new MSE())
                 .build();
@@ -98,7 +97,6 @@ public class App {
         return new Pair<>(X, Y);
     }
 
-    // TODO: this wont' be needed once a softmax activation is in place
     private static int getLabel(SimpleMatrix P, int col) {
         double biggestVal = P.get(0, col);
         int biggestInd = 0;
