@@ -26,11 +26,11 @@ public class App {
         Network network = Network.builder()
                 .numInputUnits(28 * 28)
                 .layers(List.of(
-                        new Layer(38, new Sigmoid()),
-                        new Layer(14, new Sigmoid()),
-                        new Layer(10, new Identity()) // TODO: softmax
+                        new Layer(38, Sigmoid.INSTANCE),
+                        new Layer(14, Sigmoid.INSTANCE),
+                        new Layer(10, Identity.INSTANCE) // TODO: softmax
                 ))
-                .costFunction(new MSE())
+                .costFunction(MSE.INSTANCE)
                 .build();
         network.initialize();
 
